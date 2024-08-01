@@ -19,15 +19,22 @@
         }
         #container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             width: 100%;
             max-width: 1200px;
             margin-top: 20px;
         }
         #editorContainer, #outputContainer {
-            width: 48%;
+            width: 100%;
+            max-width: 48%;
+            box-sizing: border-box;
         }
-        textarea {
+        .editor-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .editor {
             width: 100%;
             height: 300px;
             border: 1px solid #ccc;
@@ -35,8 +42,22 @@
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             overflow: auto;
-            margin-bottom: 10px;
             resize: vertical;
+        }
+        .editor-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .fullScreenButton {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
         }
         #output {
             width: 100%;
@@ -79,18 +100,39 @@
         button:hover {
             background-color: #0056b3;
         }
+        @media (max-width: 768px) {
+            #editorContainer, #outputContainer {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.min.css">
 </head>
 <body>
 
     <h1>Code Viewer</h1>
     <div id="container">
         <div id="editorContainer">
-            <textarea id="editor" placeholder="Masukkan kode HTML di sini..."></textarea>
-            <textarea id="cssEditor" placeholder="Masukkan kode CSS di sini... (Opsional)"></textarea>
-            <textarea id="jsEditor" placeholder="Masukkan kode JavaScript di sini... (Opsional)"></textarea>
+            <div class="editor-section">
+                <div class="editor-label">HTML</div>
+                <button class="fullScreenButton" onclick="toggleFullScreen('htmlEditor')">Full Screen</button>
+                <div id="htmlEditor" class="editor"></div>
+            </div>
+            <div class="editor-section">
+                <div class="editor-label">CSS</div>
+                <button class="fullScreenButton" onclick="toggleFullScreen('cssEditor')">Full Screen</button>
+                <div id="cssEditor" class="editor"></div>
+            </div>
+            <div class="editor-section">
+                <div class="editor-label">JavaScript</div>
+                <button class="fullScreenButton" onclick="toggleFullScreen('jsEditor')">Full Screen</button>
+                <div id="jsEditor" class="editor"></div>
+            </div>
             <div id="buttons">
                 <button id="generateButton">Generate</button>
+                <button id="zoomInButton">Zoom In</button>
+                <button id="zoomOutButton">Zoom Out</button>
             </div>
         </div>
         <div id="outputContainer">
@@ -98,53 +140,101 @@
                 <h2>Hasil Output</h2>
                 <iframe id="outputFrame"></iframe>
             </div>
+            <div id="outputButtons">
+                <button id="openOutputButton">Buka Hasil di Jendela Baru</button>
+            </div>
         </div>
     </div>
 
-    <div id="outputButtons">
-        <button id="openOutputButton">Buka Hasil di Jendela Baru</button>
-    </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
     <script>
-        function updateOutput() {
-            var htmlCode = document.getElementById('editor').value;
-            var cssCode = document.getElementById('cssEditor').value;
-            var jsCode = document.getElementById('jsEditor').value;
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' }});
+        require(['vs/editor/editor.main'], function() {
+            var htmlEditor = monaco.editor.create(document.getElementById('htmlEditor'), {
+                value: '',
+                language: 'html',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 14
+            });
 
-            var output = `
-                <style>${cssCode ? cssCode : ''}</style>
-                ${htmlCode}
-                <script>${jsCode ? jsCode : ''}<\/script>
-            `;
+            var cssEditor = monaco.editor.create(document.getElementById('cssEditor'), {
+                value: '',
+                language: 'css',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 14
+            });
 
-            // Remove the existing iframe
-            var outputContainer = document.getElementById('outputContainer');
-            outputContainer.innerHTML = '<div id="output"><h2>Hasil Output</h2><iframe id="outputFrame"></iframe></div>';
+            var jsEditor = monaco.editor.create(document.getElementById('jsEditor'), {
+                value: '',
+                language: 'javascript',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 14
+            });
 
-            var outputFrame = document.getElementById('outputFrame');
-            var outputDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
-            outputDoc.open();
-            outputDoc.write(output);
-            outputDoc.close();
-        }
+            function updateOutput() {
+                var htmlCode = htmlEditor.getValue();
+                var cssCode = cssEditor.getValue();
+                var jsCode = jsEditor.getValue();
 
-        document.getElementById('generateButton').onclick = updateOutput;
+                var output = `
+                    <style>${cssCode ? cssCode : ''}</style>
+                    ${htmlCode}
+                    <script>${jsCode ? jsCode : ''}<\/script>
+                `;
 
-        document.getElementById('openOutputButton').onclick = function() {
-            var htmlCode = document.getElementById('editor').value;
-            var cssCode = document.getElementById('cssEditor').value;
-            var jsCode = document.getElementById('jsEditor').value;
+                var outputFrame = document.getElementById('outputFrame');
+                var outputDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
+                outputDoc.open();
+                outputDoc.write(output);
+                outputDoc.close();
+            }
 
-            var output = `
-                <style>${cssCode ? cssCode : ''}</style>
-                ${htmlCode}
-                <script>${jsCode ? jsCode : ''}<\/script>
-            `;
+            document.getElementById('generateButton').onclick = updateOutput;
 
-            var newWindow = window.open();
-            newWindow.document.write(output);
-            newWindow.document.close();
-        };
+            document.getElementById('openOutputButton').onclick = function() {
+                var htmlCode = htmlEditor.getValue();
+                var cssCode = cssEditor.getValue();
+                var jsCode = jsEditor.getValue();
+
+                var output = `
+                    <style>${cssCode ? cssCode : ''}</style>
+                    ${htmlCode}
+                    <script>${jsCode ? jsCode : ''}<\/script>
+                `;
+
+                var newWindow = window.open();
+                newWindow.document.write(output);
+                newWindow.document.close();
+            };
+
+            document.getElementById('zoomInButton').onclick = function() {
+                var newFontSize = htmlEditor.getOption(monaco.editor.EditorOption.fontSize) + 2;
+                htmlEditor.updateOptions({ fontSize: newFontSize });
+                cssEditor.updateOptions({ fontSize: newFontSize });
+                jsEditor.updateOptions({ fontSize: newFontSize });
+            };
+
+            document.getElementById('zoomOutButton').onclick = function() {
+                var newFontSize = htmlEditor.getOption(monaco.editor.EditorOption.fontSize) - 2;
+                htmlEditor.updateOptions({ fontSize: newFontSize });
+                cssEditor.updateOptions({ fontSize: newFontSize });
+                jsEditor.updateOptions({ fontSize: newFontSize });
+            };
+
+            window.toggleFullScreen = function(editorId) {
+                var editorContainer = document.getElementById(editorId);
+                if (!document.fullscreenElement) {
+                    editorContainer.requestFullscreen().catch(err => {
+                        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            };
+        });
     </script>
 
 </body>
