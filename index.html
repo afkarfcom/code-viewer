@@ -42,7 +42,7 @@
         .editor {
             width: 100%; /* Ubah menjadi 100% untuk responsif */
             max-width: 100%; /* Pastikan tidak melebihi lebar kontainer */
-            height: 500px;
+            height: 300px;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #fff;
@@ -137,7 +137,6 @@
                 <div class="editor-buttons">
                     <button onclick="clearEditor('htmlEditor')">Hapus</button>
                     <button onclick="copyToClipboard('htmlEditor')">Salin</button>
-                    <button onclick="pasteToEditor('htmlEditor')">Tempel</button>
                 </div>
             </div>
             <div class="editor-section">
@@ -147,7 +146,6 @@
                 <div class="editor-buttons">
                     <button onclick="clearEditor('cssEditor')">Hapus</button>
                     <button onclick="copyToClipboard('cssEditor')">Salin</button>
-                    <button onclick="pasteToEditor('cssEditor')">Tempel</button>
                 </div>
             </div>
             <div class="editor-section">
@@ -157,7 +155,6 @@
                 <div class="editor-buttons">
                     <button onclick="clearEditor('jsEditor')">Hapus</button>
                     <button onclick="copyToClipboard('jsEditor')">Salin</button>
-                    <button onclick="pasteToEditor('jsEditor')">Tempel</button>
                 </div>
             </div>
             <div id="buttons">
@@ -278,15 +275,6 @@
                     alert('Code copied to clipboard!');
                 }, (err) => {
                     alert('Failed to copy code: ', err);
-                });
-            };
-
-            window.pasteToEditor = function(editorId) {
-                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
-                navigator.clipboard.readText().then(text => {
-                    editor.setValue(text);
-                }).catch(err => {
-                    alert('Failed to read clipboard contents: ', err);
                 });
             };
         });
