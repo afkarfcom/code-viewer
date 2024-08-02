@@ -92,6 +92,10 @@
                 var cssCode = cssEditor.getValue();
                 var jsCode = jsEditor.getValue();
 
+                // Remove external references
+                htmlCode = htmlCode.replace(/<link.*?href=".*?\.css".*?>/g, '');
+                htmlCode = htmlCode.replace(/<script.*?src=".*?\.js".*?><\/script>/g, '');
+
                 var output = `
                     <style>${cssCode ? cssCode : ''}</style>
                     ${htmlCode}
@@ -111,6 +115,10 @@
                 var htmlCode = htmlEditor.getValue();
                 var cssCode = cssEditor.getValue();
                 var jsCode = jsEditor.getValue();
+
+                // Remove external references
+                htmlCode = htmlCode.replace(/<link.*?href=".*?\.css".*?>/g, '');
+                htmlCode = htmlCode.replace(/<script.*?src=".*?\.js".*?><\/script>/g, '');
 
                 var output = `
                     <style>${cssCode ? cssCode : ''}</style>
