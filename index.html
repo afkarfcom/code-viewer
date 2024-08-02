@@ -92,11 +92,6 @@
                 var cssCode = cssEditor.getValue();
                 var jsCode = jsEditor.getValue();
 
-                // Remove references to local files
-                var localDomain = window.location.origin;
-                htmlCode = htmlCode.replace(new RegExp(`<link.*?href="${localDomain}.*?\\.css".*?>`, 'g'), '');
-                htmlCode = htmlCode.replace(new RegExp(`<script.*?src="${localDomain}.*?\\.js".*?><\\/script>`, 'g'), '');
-
                 var output = `
                     <style>${cssCode ? cssCode : ''}</style>
                     ${htmlCode}
@@ -116,11 +111,6 @@
                 var htmlCode = htmlEditor.getValue();
                 var cssCode = cssEditor.getValue();
                 var jsCode = jsEditor.getValue();
-
-                // Remove references to local files
-                var localDomain = window.location.origin;
-                htmlCode = htmlCode.replace(new RegExp(`<link.*?href="${localDomain}.*?\\.css".*?>`, 'g'), '');
-                htmlCode = htmlCode.replace(new RegExp(`<script.*?src="${localDomain}.*?\\.js".*?><\\/script>`, 'g'), '');
 
                 var output = `
                     <style>${cssCode ? cssCode : ''}</style>
