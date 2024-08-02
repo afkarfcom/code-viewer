@@ -19,16 +19,21 @@
         }
         #container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            flex-direction: column;
             width: 100%;
             max-width: 1200px;
             margin-top: 20px;
         }
-        #editorContainer, #outputContainer {
+        #editorContainer {
             width: 100%;
-            max-width: 48%;
+            max-width: 100%;
             box-sizing: border-box;
+        }
+        #outputContainer {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin-top: 20px;
         }
         .editor-section {
             position: relative;
@@ -58,6 +63,11 @@
             border: none;
             cursor: pointer;
             border-radius: 3px;
+        }
+        .editor-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
         }
         #output {
             width: 100%;
@@ -118,16 +128,31 @@
                 <div class="editor-label">HTML</div>
                 <button class="fullScreenButton" onclick="toggleFullScreen('htmlEditor')">Full Screen</button>
                 <div id="htmlEditor" class="editor"></div>
+                <div class="editor-buttons">
+                    <button onclick="clearEditor('htmlEditor')">Hapus</button>
+                    <button onclick="copyToClipboard('htmlEditor')">Salin</button>
+                    <button onclick="pasteToEditor('htmlEditor')">Tempel</button>
+                </div>
             </div>
             <div class="editor-section">
                 <div class="editor-label">CSS</div>
                 <button class="fullScreenButton" onclick="toggleFullScreen('cssEditor')">Full Screen</button>
                 <div id="cssEditor" class="editor"></div>
+                <div class="editor-buttons">
+                    <button onclick="clearEditor('cssEditor')">Hapus</button>
+                    <button onclick="copyToClipboard('cssEditor')">Salin</button>
+                    <button onclick="pasteToEditor('cssEditor')">Tempel</button>
+                </div>
             </div>
             <div class="editor-section">
                 <div class="editor-label">JavaScript</div>
                 <button class="fullScreenButton" onclick="toggleFullScreen('jsEditor')">Full Screen</button>
                 <div id="jsEditor" class="editor"></div>
+                <div class="editor-buttons">
+                    <button onclick="clearEditor('jsEditor')">Hapus</button>
+                    <button onclick="copyToClipboard('jsEditor')">Salin</button>
+                    <button onclick="pasteToEditor('jsEditor')">Tempel</button>
+                </div>
             </div>
             <div id="buttons">
                 <button id="generateButton">Generate</button>
@@ -233,6 +258,30 @@
                 } else {
                     document.exitFullscreen();
                 }
+            };
+
+            window.clearEditor = function(editorId) {
+                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
+                editor.setValue('');
+            };
+
+            window.copyToClipboard = function(editorId) {
+                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
+                var code = editor.getValue();
+                navigator.clipboard.writeText(code).then(() => {
+                    alert('Code copied to clipboard!');
+                }, (err) => {
+                    alert('Failed to copy code: ', err);
+                });
+            };
+
+            window.pasteToEditor = function(editorId) {
+                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
+                navigator.clipboard.readText().then(text => {
+                    editor.setValue(text);
+                }).catch(err => {
+                    alert('Failed to read clipboard contents: ', err);
+                });
             };
         });
     </script>
