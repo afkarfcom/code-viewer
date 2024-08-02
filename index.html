@@ -92,20 +92,10 @@
                 var cssCode = cssEditor.getValue();
                 var jsCode = jsEditor.getValue();
 
-                // Menghilangkan referensi ke file CSS eksternal kecuali yang dimulai dengan http/https
-                var sanitizedCssCode = cssCode.replace(/<link\s+rel=["']stylesheet["']\s+href=["']([^"']+)["']\s*\/?>/gi, function(match, url) {
-                    return url.startsWith('http://') || url.startsWith('https://') ? match : '';
-                });
-
-                // Menghilangkan referensi ke file JS eksternal kecuali yang dimulai dengan http/https
-                var sanitizedJsCode = jsCode.replace(/<script\s+src=["']([^"']+)["']\s*><\/script>/gi, function(match, url) {
-                    return url.startsWith('http://') || url.startsWith('https://') ? match : '';
-                });
-
                 var output = `
-                    <style>${sanitizedCssCode ? sanitizedCssCode : ''}</style>
+                    <style>${cssCode ? cssCode : ''}</style>
                     ${htmlCode}
-                    <script>${sanitizedJsCode ? sanitizedJsCode : ''}<\/script>
+                    <script>${jsCode ? jsCode : ''}<\/script>
                 `;
 
                 var outputFrame = document.getElementById('outputFrame');
