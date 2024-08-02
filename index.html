@@ -19,6 +19,7 @@
                 <div class="editor-buttons">
                     <button onclick="clearEditor('htmlEditor')">Clear</button>
                     <button onclick="copyToClipboard('htmlEditor')">Copy</button>
+                    <button onclick="saveToFile('htmlEditor', 'index.html')">Save</button>
                 </div>
             </div>
             <div class="editor-section">
@@ -28,6 +29,7 @@
                 <div class="editor-buttons">
                     <button onclick="clearEditor('cssEditor')">Clear</button>
                     <button onclick="copyToClipboard('cssEditor')">Copy</button>
+                    <button onclick="saveToFile('cssEditor', 'styles.css')">Save</button>
                 </div>
             </div>
             <div class="editor-section">
@@ -37,6 +39,7 @@
                 <div class="editor-buttons">
                     <button onclick="clearEditor('jsEditor')">Clear</button>
                     <button onclick="copyToClipboard('jsEditor')">Copy</button>
+                    <button onclick="saveToFile('jsEditor', 'script.js')">Save</button>
                 </div>
             </div>
             <div id="buttons">
@@ -138,7 +141,7 @@
                 var editorContainer = document.getElementById(editorId);
                 if (!document.fullscreenElement) {
                     editorContainer.requestFullscreen().catch(err => {
-                        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
                     });
                 } else {
                     document.exitFullscreen();
@@ -154,10 +157,20 @@
                 var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
                 var code = editor.getValue();
                 navigator.clipboard.writeText(code).then(() => {
-                    alert('Code copied to clipboard!');
+                    console.log('Code copied to clipboard!');
                 }, (err) => {
-                    alert('Failed to copy code: ', err);
+                    console.error('Failed to copy code: ', err);
                 });
+            };
+
+            window.saveToFile = function(editorId, fileName) {
+                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
+                var code = editor.getValue();
+                var blob = new Blob([code], { type: 'text/plain' });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
             };
         });
     </script>
