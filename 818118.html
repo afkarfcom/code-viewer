@@ -14,124 +14,130 @@
     <link rel="shortcut icon" href="bahan-bahan/favicon/favicon.ico">
     <link rel="manifest" href="bahan-bahan/favicon/site.webmanifest">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-        }
-        #editorContainer {
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        #outputContainer {
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-            margin-top: 20px;
-        }
-        .editor-section {
-            position: relative;
-            margin-bottom: 20px;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    #container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 1200px;
+        margin-top: 20px;
+    }
+    #editorContainer {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    #outputContainer {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-top: 20px;
+    }
+    .editor-section {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .editor {
+        width: 100%;
+        height: 500px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: auto;
+        resize: vertical;
+        box-sizing: border-box;
+    }
+    .editor-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .fullScreenButton {
+        position: absolute;
+        top: 4px;
+        right: 150px; /* Adjusted to make space for zoom buttons */
+        padding: 5px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    .editor-buttons {
+        display: flex;
+        gap: 5px;
+        margin-top: 5px;
+    }
+    #output {
+        width: 100%;
+        height: 600px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+    #output h2 {
+        margin: 0;
+        padding: 10px;
+        text-align: center;
+        font-size: 20px;
+        color: #333;
+        border-bottom: 1px solid #ccc;
+    }
+    #outputFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0 0 5px 5px;
+    }
+    #buttons, #outputButtons {
+        text-align: center;
+        margin-top: 10px;
+    }
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        max-width: 120px; /* Ukuran maksimum lebar tombol */
+        max-height: 40px; /* Ukuran maksimum tinggi tombol */
+        font-size: 14px; /* Ukuran font yang lebih kecil untuk tombol */
+        overflow: hidden; /* Menghindari teks melampaui batas tombol */
+        white-space: nowrap; /* Mencegah teks dibungkus */
+        text-overflow: ellipsis; /* Menambahkan elipsis jika teks terlalu panjang */
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .red-button {
+        background-color: red;
+    }
+    .red-button:hover {
+        background-color: darkred;
+    }
+    @media (max-width: 768px) {
         .editor {
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: auto;
-            resize: vertical;
-            box-sizing: border-box;
+            height: 200px;
         }
-        .editor-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .fullScreenButton {
-            position: absolute;
-            top: 4px;
-            right: 150px; /* Adjusted to make space for zoom buttons */
-            padding: 5px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-        .editor-buttons {
-            display: flex;
-            gap: 5px;
-            margin-top: 5px;
-        }
-        #output {
-            width: 100%;
-            height: 600px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column;
-        }
-        #output h2 {
-            margin: 0;
-            padding: 10px;
-            text-align: center;
-            font-size: 20px;
-            color: #333;
-            border-bottom: 1px solid #ccc;
-        }
-        #outputFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 0 0 5px 5px;
-        }
-        #buttons, #outputButtons {
-            text-align: center;
-            margin-top: 10px;
-        }
-        button {
-            padding: 10px 15px;
-            margin: 5px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .red-button {
-            background-color: red;
-        }
-        .red-button:hover {
-            background-color: darkred;
-        }
-        @media (max-width: 768px) {
-            .editor {
-                height: 200px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
