@@ -14,130 +14,155 @@
     <link rel="shortcut icon" href="bahan-bahan/favicon/favicon.ico">
     <link rel="manifest" href="bahan-bahan/favicon/site.webmanifest">
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f4f4f4;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-    #container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 1200px;
-        margin-top: 20px;
-    }
-    #editorContainer {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-    #outputContainer {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        margin-top: 20px;
-    }
-    .editor-section {
-        position: relative;
-        margin-bottom: 20px;
-    }
-    .editor {
-        width: 100%;
-        height: 500px;
-        border: 1px solid #ccc;
-        padding: 10px;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        overflow: auto;
-        resize: vertical;
-        box-sizing: border-box;
-    }
-    .editor-label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-    .fullScreenButton {
-        position: absolute;
-        top: 4px;
-        right: 150px; /* Adjusted to make space for zoom buttons */
-        padding: 5px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-    .editor-buttons {
-        display: flex;
-        gap: 5px;
-        margin-top: 5px;
-    }
-    #output {
-        width: 100%;
-        height: 600px;
-        border: 1px solid #ccc;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-    }
-    #output h2 {
-        margin: 0;
-        padding: 10px;
-        text-align: center;
-        font-size: 20px;
-        color: #333;
-        border-bottom: 1px solid #ccc;
-    }
-    #outputFrame {
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 0 0 5px 5px;
-    }
-    #buttons, #outputButtons {
-        text-align: center;
-        margin-top: 10px;
-    }
-    button {
-        padding: 10px 15px;
-        margin: 5px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        max-width: 120px; /* Ukuran maksimum lebar tombol */
-        max-height: 40px; /* Ukuran maksimum tinggi tombol */
-        font-size: 14px; /* Ukuran font yang lebih kecil untuk tombol */
-        overflow: hidden; /* Menghindari teks melampaui batas tombol */
-        white-space: nowrap; /* Mencegah teks dibungkus */
-        text-overflow: ellipsis; /* Menambahkan elipsis jika teks terlalu panjang */
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-    .red-button {
-        background-color: red;
-    }
-    .red-button:hover {
-        background-color: darkred;
-    }
-    @media (max-width: 768px) {
-        .editor {
-            height: 200px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-    }
-</style>
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+        #editorContainer {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        #outputContainer {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+        .editor-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .editor {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .editor-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .fullScreenButton {
+            position: absolute;
+            top: 2px;
+            right: 90px; /* Adjusted to make space for zoom buttons */
+            padding: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .editor-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+            gap: 10px; /* Space between buttons */
+            margin-top: 5px;
+        }
+        #output {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        #output h2 {
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+        }
+        #outputFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0 0 5px 5px;
+        }
+        #buttons, #outputButtons {
+            text-align: center;
+            margin-top: 10px;
+        }
+        button {
+            padding: 8px 12px; /* Ukuran padding yang lebih kecil */
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            min-width: 100px; /* Ukuran minimum lebar tombol */
+            min-height: 30px; /* Ukuran minimum tinggi tombol */
+            font-size: 14px; /* Ukuran font yang lebih kecil untuk tombol */
+            overflow: hidden; /* Menghindari teks melampaui batas tombol */
+            white-space: nowrap; /* Mencegah teks dibungkus */
+            text-overflow: ellipsis; /* Menambahkan elipsis jika teks terlalu panjang */
+            position: relative;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .red-button {
+            background-color: red;
+        }
+        .red-button:hover {
+            background-color: darkred;
+        }
+        .tooltip {
+            visibility: hidden;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the button */
+            left: 50%;
+            margin-left: -60px;
+            width: 120px;
+        }
+        button:hover .tooltip {
+            visibility: visible;
+        }
+        @media (max-width: 768px) {
+            .editor {
+                height: 200px;
+            }
+            button {
+                padding: 5px 10px; /* Mengurangi padding pada perangkat seluler */
+                font-size: 12px; /* Mengurangi ukuran font pada perangkat seluler */
+                min-width: 80px; /* Mengurangi lebar minimum tombol pada perangkat seluler */
+                min-height: 25px; /* Mengurangi tinggi minimum tombol pada perangkat seluler */
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -149,11 +174,11 @@
                 <button class="fullScreenButton" onclick="toggleFullScreen('htmlEditor')">Full Screen</button>
                 <div id="htmlEditor" class="editor"></div>
                 <div class="editor-buttons">
-                    <button onclick="clearEditor('htmlEditor')">Clear</button>
-                    <button onclick="copyToClipboard('htmlEditor')">Copy</button>
-                    <button onclick="saveToFile('htmlEditor', 'index.html')">Save</button>
-                    <button onclick="zoomIn('htmlEditor')">Zoom In</button>
-                    <button onclick="zoomOut('htmlEditor')">Zoom Out</button>
+                    <button onclick="clearEditor('htmlEditor')">Clear<span class="tooltip">Clear Editor</span></button>
+                    <button onclick="copyToClipboard('htmlEditor')">Copy<span class="tooltip">Copy to Clipboard</span></button>
+                    <button onclick="saveToFile('htmlEditor', 'index.html')">Save<span class="tooltip">Save to File</span></button>
+                    <button onclick="zoomIn('htmlEditor')">Zoom In<span class="tooltip">Zoom In</span></button>
+                    <button onclick="zoomOut('htmlEditor')">Zoom Out<span class="tooltip">Zoom Out</span></button>
                 </div>
             </div>
             <div class="editor-section">
@@ -161,11 +186,11 @@
                 <button class="fullScreenButton" onclick="toggleFullScreen('cssEditor')">Full Screen</button>
                 <div id="cssEditor" class="editor"></div>
                 <div class="editor-buttons">
-                    <button onclick="clearEditor('cssEditor')">Clear</button>
-                    <button onclick="copyToClipboard('cssEditor')">Copy</button>
-                    <button onclick="saveToFile('cssEditor', 'styles.css')">Save</button>
-                    <button onclick="zoomIn('cssEditor')">Zoom In</button>
-                    <button onclick="zoomOut('cssEditor')">Zoom Out</button>
+                    <button onclick="clearEditor('cssEditor')">Clear<span class="tooltip">Clear Editor</span></button>
+                    <button onclick="copyToClipboard('cssEditor')">Copy<span class="tooltip">Copy to Clipboard</span></button>
+                    <button onclick="saveToFile('cssEditor', 'styles.css')">Save<span class="tooltip">Save to File</span></button>
+                    <button onclick="zoomIn('cssEditor')">Zoom In<span class="tooltip">Zoom In</span></button>
+                    <button onclick="zoomOut('cssEditor')">Zoom Out<span class="tooltip">Zoom Out</span></button>
                 </div>
             </div>
             <div class="editor-section">
@@ -173,15 +198,15 @@
                 <button class="fullScreenButton" onclick="toggleFullScreen('jsEditor')">Full Screen</button>
                 <div id="jsEditor" class="editor"></div>
                 <div class="editor-buttons">
-                    <button onclick="clearEditor('jsEditor')">Clear</button>
-                    <button onclick="copyToClipboard('jsEditor')">Copy</button>
-                    <button onclick="saveToFile('jsEditor', 'script.js')">Save</button>
-                    <button onclick="zoomIn('jsEditor')">Zoom In</button>
-                    <button onclick="zoomOut('jsEditor')">Zoom Out</button>
+                    <button onclick="clearEditor('jsEditor')">Clear<span class="tooltip">Clear Editor</span></button>
+                    <button onclick="copyToClipboard('jsEditor')">Copy<span class="tooltip">Copy to Clipboard</span></button>
+                    <button onclick="saveToFile('jsEditor', 'script.js')">Save<span class="tooltip">Save to File</span></button>
+                    <button onclick="zoomIn('jsEditor')">Zoom In<span class="tooltip">Zoom In</span></button>
+                    <button onclick="zoomOut('jsEditor')">Zoom Out<span class="tooltip">Zoom Out</span></button>
                 </div>
             </div>
             <div id="buttons">
-                <button id="generateButton" class="red-button">Generate</button>
+                <button id="generateButton" class="red-button">Generate<span class="tooltip">Generate Output</span></button>
             </div>
         </div>
         <div id="outputContainer">
@@ -190,7 +215,7 @@
                 <iframe id="outputFrame"></iframe>
             </div>
             <div id="outputButtons">
-                <button id="openOutputButton">Open In New Window</button>
+                <button id="openOutputButton">Open In New Window<span class="tooltip">Open in New Window</span></button>
             </div>
         </div>
     </div>
