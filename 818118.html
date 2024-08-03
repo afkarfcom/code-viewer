@@ -66,7 +66,7 @@
         .fullScreenButton {
             position: absolute;
             top: 4px;
-            right: 50px;
+            right: 150px; /* Adjusted to make space for zoom buttons */
             padding: 5px;
             background-color: #007bff;
             color: white;
@@ -146,6 +146,8 @@
                     <button onclick="clearEditor('htmlEditor')">Clear</button>
                     <button onclick="copyToClipboard('htmlEditor')">Copy</button>
                     <button onclick="saveToFile('htmlEditor', 'index.html')">Save</button>
+                    <button onclick="zoomIn('htmlEditor')">Zoom In</button>
+                    <button onclick="zoomOut('htmlEditor')">Zoom Out</button>
                 </div>
             </div>
             <div class="editor-section">
@@ -156,6 +158,8 @@
                     <button onclick="clearEditor('cssEditor')">Clear</button>
                     <button onclick="copyToClipboard('cssEditor')">Copy</button>
                     <button onclick="saveToFile('cssEditor', 'styles.css')">Save</button>
+                    <button onclick="zoomIn('cssEditor')">Zoom In</button>
+                    <button onclick="zoomOut('cssEditor')">Zoom Out</button>
                 </div>
             </div>
             <div class="editor-section">
@@ -166,12 +170,12 @@
                     <button onclick="clearEditor('jsEditor')">Clear</button>
                     <button onclick="copyToClipboard('jsEditor')">Copy</button>
                     <button onclick="saveToFile('jsEditor', 'script.js')">Save</button>
+                    <button onclick="zoomIn('jsEditor')">Zoom In</button>
+                    <button onclick="zoomOut('jsEditor')">Zoom Out</button>
                 </div>
             </div>
             <div id="buttons">
                 <button id="generateButton" class="red-button">Generate</button>
-                <button id="zoomInButton">Zoom In</button>
-                <button id="zoomOutButton">Zoom Out</button>
             </div>
         </div>
         <div id="outputContainer">
@@ -254,20 +258,6 @@
                 newWindow.document.close();
             };
 
-            document.getElementById('zoomInButton').onclick = function() {
-                var newFontSize = htmlEditor.getOption(monaco.editor.EditorOption.fontSize) + 2;
-                htmlEditor.updateOptions({ fontSize: newFontSize });
-                cssEditor.updateOptions({ fontSize: newFontSize });
-                jsEditor.updateOptions({ fontSize: newFontSize });
-            };
-
-            document.getElementById('zoomOutButton').onclick = function() {
-                var newFontSize = htmlEditor.getOption(monaco.editor.EditorOption.fontSize) - 2;
-                htmlEditor.updateOptions({ fontSize: newFontSize });
-                cssEditor.updateOptions({ fontSize: newFontSize });
-                jsEditor.updateOptions({ fontSize: newFontSize });
-            };
-
             window.toggleFullScreen = function(editorId) {
                 var editorContainer = document.getElementById(editorId);
                 if (!document.fullscreenElement) {
@@ -302,6 +292,18 @@
                 link.href = URL.createObjectURL(blob);
                 link.download = fileName;
                 link.click();
+            };
+
+            window.zoomIn = function(editorId) {
+                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
+                var newFontSize = editor.getOption(monaco.editor.EditorOption.fontSize) + 2;
+                editor.updateOptions({ fontSize: newFontSize });
+            };
+
+            window.zoomOut = function(editorId) {
+                var editor = editorId === 'htmlEditor' ? htmlEditor : editorId === 'cssEditor' ? cssEditor : jsEditor;
+                var newFontSize = editor.getOption(monaco.editor.EditorOption.fontSize) - 2;
+                editor.updateOptions({ fontSize: newFontSize });
             };
         });
     </script>
